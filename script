@@ -1,0 +1,576 @@
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR10589377
+gzip SRR10589377*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR10549511
+gzip SRR10549511*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR10541757
+gzip SRR10541757*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR10320796
+#gzip SRR10320796*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR10320795
+gzip SRR10320795*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR10320794
+#gzip SRR10320794*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR10320793
+gzip SRR10320793*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR10320792
+#gzip SRR10320792*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR10320791
+gzip SRR10320791*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR7904254
+#gzip SRR7904254*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR6308267
+#gzip SRR6308267*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR6308265
+#gzip SRR6308265*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR6308266
+#gzip SRR6308266*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR6308195
+#gzip SRR6308195*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR6206507
+#gzip SRR6206507*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR6206403
+#gzip SRR6206403*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p ERR2040411
+gzip ERR2040411*
+#/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR5283174
+#gzip SRR5283174*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR4242068
+gzip SRR4242068*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575209
+gzip SRR575209*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575207
+gzip SRR575207*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575205
+gzip SRR575205*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575203
+gzip SRR575203*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575201
+gzip SRR575201*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575199
+gzip SRR575199*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575197
+gzip SRR575197*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575195
+gzip SRR575195*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575193
+gzip SRR575193*
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575191
+gzip SRR575191*
+serve para baixar a biblioteca
+/home/sala8/bin/sratoolkit.2.9.6-1-ubuntu64/bin/fasterq-dump --split-files -v -p SRR575189
+gzip SRR575189*
+date
+
+fastqc -t 8 *gz
+
+#controle de qualidade
+#primeiramente vamos agrupar os adaptadores illumina num unico arquivo
+
+
+#SRR10589377
+gzip -d SRR10589377*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR10589377_1.fastq -baseout SRR10589377.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR10589377.trimmed*
+
+gzip SRR10589377.trimmed*fq
+rm SRR10589377*fastq
+
+#SRR575189
+gzip -d SRR575189*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575189_1.fastq -baseout SRR575189.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575189.trimmed*
+
+gzip SRR575189.trimmed*fq
+rm SRR575189*fastq
+
+#SRR575191
+gzip -d SRR575191*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575191_1.fastq -baseout SRR575191.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575191.trimmed*
+
+gzip SRR575191.trimmed*fq
+rm SRR575191*fastq
+
+#SRR575193
+gzip -d SRR575193*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575193_1.fastq -baseout SRR575193.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575193.trimmed*
+
+gzip SRR575193.trimmed*fq
+rm SRR575193*fastq
+
+#SRR575195
+gzip -d SRR575195*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575195_1.fastq -baseout SRR575195.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575195.trimmed*
+
+gzip SRR575195.trimmed*fq
+rm SRR575195*fastq
+
+#SRR575197
+gzip -d SRR575197*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575197_1.fastq -baseout SRR575197.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575197.trimmed*
+
+gzip SRR575197.trimmed*fq
+rm SRR575197*fastq
+
+#SRR575199
+gzip -d SRR575199*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575199_1.fastq -baseout SRR575199.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575199.trimmed*
+
+gzip SRR575199.trimmed*fq
+rm SRR575199*fastq
+
+#SRR575201
+gzip -d SRR575201*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575201_1.fastq -baseout SRR575201.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575201.trimmed*
+
+gzip SRR575201.trimmed*fq
+rm SRR575201*fastq
+
+#SRR575203
+gzip -d SRR575203*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575203_1.fastq -baseout SRR575203.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575203.trimmed*
+
+gzip SRR575203.trimmed*fq
+rm SRR575203*fastq
+
+#SRR575205
+gzip -d SRR575205*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575205_1.fastq -baseout SRR575205.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575205.trimmed*
+
+gzip SRR575205.trimmed*fq
+rm SRR575205*fastq
+
+#SRR575207
+gzip -d SRR575207*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575207_1.fastq -baseout SRR575207.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575207.trimmed*
+
+gzip SRR575207.trimmed*fq
+rm SRR575207*fastq
+
+#SRR575209
+gzip -d SRR575209*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR575209_1.fastq -baseout SRR575209.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR575209.trimmed*
+
+gzip SRR575209.trimmed*fq
+rm SRR575209*fastq
+
+#SRR4242068
+gzip -d SRR4242068*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR4242068_1.fastq -baseout SRR4242068.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR4242068.trimmed*
+
+gzip SRR4242068.trimmed*fq
+rm SRR4242068*fastq
+
+#SRR10320791
+gzip -d SRR10320791*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR10320791_1.fastq -baseout SRR10320791.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR10320791.trimmed*
+
+gzip SRR10320791.trimmed*fq
+rm SRR10320791*fastq
+
+#SRR10320795
+gzip -d SRR10320795*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR10320795_1.fastq -baseout SRR10320795.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR10320795.trimmed*
+
+gzip SRR10320795.trimmed*fq
+rm SRR10320795*fastq
+
+#SRR10541757
+gzip -d SRR10541757*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR10541757_1.fastq -baseout SRR10541757.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR10541757.trimmed*
+
+gzip SRR10541757.trimmed*fq
+rm SRR10541757*fastq
+
+#SRR10549511
+gzip -d SRR10549511*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR10549511_1.fastq -baseout SRR10549511.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR10549511.trimmed*
+
+gzip SRR10549511.trimmed*fq
+rm SRR10549511*fastq
+
+#SRR10320793
+
+gzip -d SRR10320793*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein SRR10320793_1.fastq -baseout SRR10320793.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 SRR10320793.trimmed*
+
+gzip SRR10320793.trimmed*fq
+rm SRR10320793*fastq
+
+
+#ERR2040411
+
+gzip -d ERR2040411*
+#controle de qualidade
+java -jar /home/sala8/bin/Trimmomatic-0.36/trimmomatic-0.36.jar PE -threads 4 -basein ERR2040411_1.fastq -baseout ERR2040411.trimmed.fq ILLUMINACLIP:./adapters.fa:2:30:7 SLIDINGWINDOW:4:20 MINLEN:50 
+#remover reads não pareados
+rm *U.fq
+#visualizar qualidade após remoção de adaptadores e reads de baixa qualidade
+
+fastqc -t 8 ERR2040411.trimmed*
+
+gzip ERR2040411.trimmed*fq
+rm ERR2040411*fastq
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 ERR2040411.trimmed_1P.fq.gz -2 ERR2040411.trimmed_2P.fq.gz -p 8 -S ERR2040411.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 ERR2040411.sam > ERR2040411.bam
+
+#Apagar sam
+
+rm ERR2040411.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR10320791.trimmed_1P.fq.gz -2 SRR10320791.trimmed_2P.fq.gz -p 8 -S SRR10320791.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR10320791.sam > SRR10320791.bam
+
+#Apagar sam
+
+rm SRR10320791.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR10320793.trimmed_1P.fq.gz -2 SRR10320793.trimmed_2P.fq.gz -p 8 -S SRR10320793.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR10320793.sam > SRR10320793.bam
+
+#Apagar sam
+
+rm SRR10320793.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR10320795.trimmed_1P.fq.gz -2 SRR10320795.trimmed_2P.fq.gz -p 8 -S SRR10320795.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR10320795.sam > SRR10320795.bam
+
+#Apagar sam
+
+rm SRR10320795.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR10541757.trimmed_1P.fq.gz -2 SRR10541757.trimmed_2P.fq.gz -p 8 -S SRR10541757.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR10541757.sam > SRR10541757.bam
+
+#Apagar sam
+
+rm SRR10541757.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR10549511.trimmed_1P.fq.gz -2 SRR10549511.trimmed_2P.fq.gz -p 8 -S SRR10549511.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR10549511.sam > SRR10549511.bam
+
+#Apagar sam
+
+rm SRR10549511.sam
+
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR10589377.trimmed_1P.fq.gz -2 SRR10589377.trimmed_2P.fq.gz -p 8 -S SRR10589377.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR10589377.sam > SRR10589377.bam
+
+#Apagar sam
+
+rm SRR10589377.sam
+
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR4242068.trimmed_1P.fq.gz -2 SRR4242068.trimmed_2P.fq.gz -p 8 -S SRR4242068.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR4242068.sam > SRR4242068.bam
+
+#Apagar sam
+
+rm SRR4242068.sam
+
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575189.trimmed_1P.fq.gz -2 SRR575189.trimmed_2P.fq.gz -p 8 -S SRR575189.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575189.sam > SRR575189.bam
+
+#Apagar sam
+
+rm SRR575189.sam
+
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575191.trimmed_1P.fq.gz -2 SRR575191.trimmed_2P.fq.gz -p 8 -S SRR575191.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575191.sam > SRR575191.bam
+
+#Apagar sam
+
+rm SRR575191.sam
+
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575193.trimmed_1P.fq.gz -2 SRR575193.trimmed_2P.fq.gz -p 8 -S SRR575193.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575193.sam > SRR575193.bam
+
+#Apagar sam
+
+rm SRR575193.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575195.trimmed_1P.fq.gz -2 SRR575195.trimmed_2P.fq.gz -p 8 -S SRR575195.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575195.sam > SRR575195.bam
+
+#Apagar sam
+
+rm SRR575195.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575197.trimmed_1P.fq.gz -2 SRR575197.trimmed_2P.fq.gz -p 8 -S SRR575197.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575197.sam > SRR575197.bam
+
+#Apagar sam
+
+rm SRR575197.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575199.trimmed_1P.fq.gz -2 SRR575199.trimmed_2P.fq.gz -p 8 -S SRR575199.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575199.sam > SRR575199.bam
+
+#Apagar sam
+
+rm SRR575199.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575201.trimmed_1P.fq.gz -2 SRR575201.trimmed_2P.fq.gz -p 8 -S SRR575201.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575201.sam > SRR575201.bam
+
+#Apagar sam
+
+rm SRR575201.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575203.trimmed_1P.fq.gz -2 SRR575203.trimmed_2P.fq.gz -p 8 -S SRR575203.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575203.sam > SRR575203.bam
+
+#Apagar sam
+
+rm SRR575203.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575205.trimmed_1P.fq.gz -2 SRR575205.trimmed_2P.fq.gz -p 8 -S SRR575205.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575205.sam > SRR575205.bam
+
+#Apagar sam
+
+rm SRR575205.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575207.trimmed_1P.fq.gz -2 SRR575207.trimmed_2P.fq.gz -p 8 -S SRR575207.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575207.sam > SRR575207.bam
+
+#Apagar sam
+
+rm SRR575207.sam
+
+#Alinhamento com o genoma
+
+../../sala8/bin/hisat2-2.1.0/hisat2 ../Genoma/cascadePrimary -1 SRR575209.trimmed_1P.fq.gz -2 SRR575209.trimmed_2P.fq.gz -p 8 -S SRR575209.sam 
+
+#passar à forma binaria
+
+samtools view -bS -@ 8 SRR575209.sam > c
+
+#Apagar sam
+
+rm SRR575209.sam
+
+#juntar todos os arquivos bam (arquivos do alinhamento) em um unico arquivo
+samtools merge -@ 8 merged.bam *bam
+
+samtools sort -@ 8 merged.bam > merged.sorted.bam
+
+../../sala8/bin/augustus-3.3.3/bin/bam2hints --in merged.sorted.bam --out intron.hints.gff
+
+#calcular coverage 
+
+../../sala8/bin/bam2wig/bam2wig merged.sorted.bam
+
+cat merged.sorted_bam2wig/merged.sorted.wig | ../../sala8/bin/augustus-3.3.3/scripts/wig2hints.pl --width=10 --margin=10 --minthresh=2 --minscore=4 --prune=0.1 --src=W --type=ep --UCSC=unstranded.track --radius=4.5 --pri=4 --strand="." > hints.ep.gff
+
+#Combine hints into gff hintsfile and feed it to Augustus
+cat hints.ep.gff intron.hints.gff > hints.gff
+
+../../sala8/bin/augustus-3.3.3/bin/augustus --species=tomato --UTR=on --extrinsicCfgFile=../../sala8/bin/augustus-3.3.3/config/extrinsic/extrinsic.M.RM.E.W.cfg --alternatives-from-evidence=true --hintsfile=hints.gff --allow_hinted_splicesites=atac ../Genoma/cascadePrimary.fasta --codingseq=on --outfile=predicted.augustus.S.g.gff --progress=true --genemodel=complete
+
+#Another server
+augustus --species=tomato --UTR=on --extrinsicCfgFile=/usr/local/bioinformatic/miniconda2/bin/augustus/config/extrinsic/extrinsic.M.RM.E.W.cfg --alternatives-from-evidence=true --hintsfile=hints.gff --allow_hinted_splicesites=atac cascadePrimary.fasta --codingseq=on --outfile=predicted.augustus.S.g.gff --progress=true --genemodel=complete
+
+
+
+
