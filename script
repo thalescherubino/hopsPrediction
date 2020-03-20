@@ -568,6 +568,18 @@ cat hints.ep.gff intron.hints.gff > hints.gff
 
 ../../sala8/bin/augustus-3.3.3/bin/augustus --species=tomato --UTR=on --extrinsicCfgFile=../../sala8/bin/augustus-3.3.3/config/extrinsic/extrinsic.M.RM.E.W.cfg --alternatives-from-evidence=true --hintsfile=hints.gff --allow_hinted_splicesites=atac ../Genoma/cascadePrimary.fasta --codingseq=on --outfile=predicted.augustus.S.g.gff --progress=true --genemodel=complete
 
+
+#Find repetitive regions with RepatModeler
+
+Create a Database for RepeatModeler
+
+#RepeatModeler uses a NCBI BLASTDB or a ABBlast XDF database ( depending on the search engine used ) as input to the repeat modeling pipeline. A utility is provided to assist the user in creating a single database from several types of input structures.
+
+/usr/local/RepeatModeler-2.0.1/BuildDatabase -name hopsRepeatsDb -engine rmblast cascadePrimary.fasta
+
+/usr/local/RepeatModeler-2.0.1/RepeatModeler -pa 2 -database hopsRepeatsDb > seqfile.out
+
+
 #Another server
 augustus --species=tomato --UTR=on --extrinsicCfgFile=/usr/local/bioinformatic/miniconda2/bin/augustus/config/extrinsic/extrinsic.M.RM.E.W.cfg --alternatives-from-evidence=true --hintsfile=hints.gff --allow_hinted_splicesites=atac cascadePrimary.fasta --codingseq=on --outfile=predicted.augustus.S.g.gff --progress=true --genemodel=complete
 
