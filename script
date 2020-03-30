@@ -568,6 +568,99 @@ cat hints.ep.gff intron.hints.gff > hints.gff
 
 ../../sala8/bin/augustus-3.3.3/bin/augustus --species=tomato --UTR=on --extrinsicCfgFile=../../sala8/bin/augustus-3.3.3/config/extrinsic/extrinsic.M.RM.E.W.cfg --alternatives-from-evidence=true --hintsfile=hints.gff --allow_hinted_splicesites=atac ../Genoma/cascadePrimary.fasta --codingseq=on --outfile=predicted.augustus.S.g.gff --progress=true --genemodel=complete
 
+######################################################
+###################Identify TE########################
+######################################################
+
+
+###################Identify MITE######################
+
+
+#Find MITEs(miniature inverted repeat transposable elements)
+
+perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 12345678 
+
+###################Identify LTR######################
+
+
+#Collection of candidate elements with LTRs that are 99% or more in similarity using LTRharvest
+
+#Two terminal repeats which are >= 99% similar, ranging from 100 bp tp 6000 bp;
+#The two terminal repeats end with “TG…CA”;
+#The size of entire element ranges from 1.5 kb to 25 kb;
+#The element must be flanked by a 5bp TSD (target site duplication).
+#The TSD is within 10 bp from the end of the element.
+
+gt suffixerator -db cascadePrimary.fasta -indexname cascadePrimary -tis -suf -lcp -des -ssp
+
+gt ltrharvest -index cascadePrimary -out seqfile.out99 -outinner seqfile.outinner99 -gff3 seqfile.gff99 -minlenltr 100 -maxlenltr 6000 -mindistltr 1500 -maxdistltr 25000 -mintsd 5 -maxtsd 5 -motif tgca -similar 99 -vic 10  > seqfile.result99
+
+#Using LTRdigest to find elements with PPT (poly purine tract) or PBS (primer binding site)
+
+gt gff3 -sort seqfile.gff99 > seqfile.gff99.sort
+
+#The “eukaryotic-tRNAs.fa” -araTha1-tRNAs.fa-  can be downloaded from Genomic tRNA database
+
+wget http://gtrnadb.ucsc.edu/GtRNAdb2/genomes/eukaryota/Athal10/araTha1-tRNAs.fa
+
+gt ltrdigest -trnas araTha1-tRNAs.fa seqfile.gff99.sort cascadePrimary > seqfile.gff99.dgt
+
+
+#Downlaod CRL scripts
+
+wget http://www.hrt.msu.edu/uploads/535/78637/CRL_Scripts1.0.tar.gz 
+
+ tar -zxvf CRL_Scripts1.0.tar.gz 
+ 
+#chmod 755 -r CRL_Scripts1.0/
+
+perl ./CRL_Scripts1.0/CRL_Step1.pl --gff seqfile.gff99.dgt
+
+#Even after the above procedures, considerable amounts of false positive elements are still detected. The three most important sources of false positives are:
+
+#Tandem local repeats such as centromeric repeats.
+#Local gene clusters derived from recent gene duplications
+#Two other transposable elements located in adjacent regions.
+#A common feature of these sequences is that the alignment between the two “LTRs” often extends beyond the boundary of “LTR”. So we retrieve the flanking sequences of the two LTRs. If the flank sequences are also alignable, the candidate element will be excluded.
+
+#The CRL_Step2.pl script removes element sequences containing significant sequencing gaps (more than 50 Ns), then 50bp flanking sequences on both sides of the remaining LTRs are retrieved.
+
+perl ./CRL_Scripts1.0/CRL_Step2.pl --step1 CRL_Step1_Passed_Elements.txt --repeatfile seqfile.out99 --resultfile seqfile.result99 --sequencefile cascadePrimary.fasta --removed_repeats CRL_Step2_Passed_Elements.fasta
+
+#The CRL_Step2_Passed_Elements.fasta file is a FASTA file containing the element sequences without significant sequencing gaps. The Repeat_*.fasta files are small sequence files containing the 50bp flanking upstream or downstream sequence.
+
+mkdir  fasta_files
+mv  Repeat_*.fasta   fasta_files
+mv  CRL_Step2_Passed_Elements.fasta  fasta_files
+cd  fasta_files
+
+#Next, the CRL_Step3.pl script aligns the Repeat_*.fasta files with default parameters. Specifically, the upstream sequence of 5’ LTR was aligned with that of 3’ LTR of each candidate. So were the downstream sequences. The resulting output (flankingseqfile.afa) of MUSCLE contains the two sequences in fasta format where gaps are indicated by “-”. Comparison of each corresponding position of the two sequences would reveal, among all positions of the two sequences, the number of positions associated with identical nucleotides, different nucleotide, and indels. Based on the above comparison, sequence identity of the two sequences was calculated, which equals number of identical positions divided by alignable positions. Alignable positions were derived from total positions minus gaps or indels. If the flanking sequences on either side is alignable (25 identical bps, or half of the total nucleotides, with at least 60% identity excluding gaps), the element is excluded.
+
+../CRL_Scripts1.0/CRL_Step3.pl --directory  ../fasta_files --step2 CRL_Step2_Passed_Elements.fasta --pidentity 60 --seq_c 25 
+
+
+#The CRL_Step3_Passed_Elements.fasta file is a FASTA sequence file containing element sequences that have passed the percent identity and number of identical nucleotides thresholds. This file will be located in the fasta_files directory.
+
+#Move CRL_Step3_Passed_Elements.fasta to the parental directory before proceeding to next step.
+
+mv  CRL_Step3_Passed_Elements.fasta  ..
+cd  ..
+
+#Identify elements with nested insertions
+
+#Retrotranposons are frequently nested with each other or inserted by other elements. If left unidentified, it will cause misclassification and other complications. To detect those elements, LTR sequences from candidate elements retained after steps in 2.1.3 are used to mask the putative internal regions. If LTR sequences are detected in the internal regions, it is considered as elements nested with other insertions. ******
+#If internal regions of elements match sequences in MITE.lib (see 1.), they are also considered as elements with nested insertions. ******
+#The internal regions of elements are also used to search against a transposase database of DNA transposons. If the internal sequence has significant matches with any DNA transposase, it is considered as an element containing nested insertions.
+
+
+./CRL_Scripts1.0/ltr_library.pl --resultfile seqfile.result99  --step3 CRL_Step3_Passed_Elements.fasta --sequencefile cascadePrimary.fasta 
+
+#The lLTR_Only.lib output is a FASTA file containing the sequence of the left (5'end) LTR sequence.
+
+#Combine lLTR_Only.lib and MITE.lib to form a library to mask the internal regions of putative LTR elements
+
+cat lLTR_Only.lib  MITE.lib  > repeats_to_mask_LTR99.fasta
+
 
 #Find repetitive regions with RepatModeler
 
