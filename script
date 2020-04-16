@@ -578,7 +578,10 @@ cat hints.ep.gff intron.hints.gff > hints.gff
 
 #Find MITEs(miniature inverted repeat transposable elements)
 
-perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 12345678 
+perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 1
+perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 2
+perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 3
+perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 4
 
 ###################Identify LTR######################
 
