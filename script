@@ -580,8 +580,15 @@ cat hints.ep.gff intron.hints.gff > hints.gff
 
 perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 1
 perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 2
+
+cat *.TSD.* >  genome_Step2.fa
+cat genome_Step2.fa > genome_Step2.fa.dusted
+
+
 perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 3
 perl ~/bin/MITE_Hunter/MITE_Hunter_manager.pl -i cascadePrimary.fasta -n 8 -S 4
+date
+
 
 ###################Identify LTR######################
 
